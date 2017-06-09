@@ -2,6 +2,7 @@
 
 import argparse
 import random
+import numpy as np
 import moviepy.editor as moved
 
 
@@ -14,6 +15,7 @@ def parse_args():
     parser.add_argument('--seconds-per-clip', '-s', help='', default=1,
                         type=float)
     parser.add_argument('--output', '-o', help='output.avi', default=1, type=str)
+    parser.add_argument('--shuffle', action='store_true')
     parser.add_argument('input_vid_file_names', nargs='+', help='', type=str)
 
     return parser.parse_args()
@@ -51,6 +53,9 @@ if __name__ == '__main__':
             clip_end = clip_start + args.seconds_per_clip
             all_clips.append(vid.subclip(clip_start, clip_end).resize(min_resolution))
             print('.', end='', flush=True)
+
+    if args.shuffle:
+        np.random.shuffle(all_clips)
 
     final_clip = moved.concatenate_videoclips(all_clips)
     final_clip.write_videofile("myHolidays_edited_2.avi",fps=24, codec='mpeg4')
