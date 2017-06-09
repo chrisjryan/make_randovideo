@@ -51,7 +51,7 @@ if __name__ == '__main__':
         for start, end in segment_intervals:
             clip_start = start + random.random() * (segment_interval_size - 1)
             clip_end = clip_start + args.seconds_per_clip
-            all_clips.append(vid.subclip(clip_start, clip_end).resize(min_resolution))
+            all_clips.append(vid.subclip(clip_start, min(clip_end, vid.duration)).resize(min_resolution))
             print('.', end='', flush=True)
 
     if args.shuffle:
