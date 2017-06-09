@@ -11,11 +11,11 @@ def parse_args():
     parser = argparse.ArgumentParser(
         description=desc,
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--duration', '-d', help='', default=30, type=float)
-    parser.add_argument('--seconds-per-clip', '-s', help='', default=1,
+    parser.add_argument('--duration', '-d', help='Duration of the whole video', default=30, type=float)
+    parser.add_argument('--seconds-per-clip', '-s', help='Number of seconds per random clip', default=1,
                         type=float)
-    parser.add_argument('--output', '-o', help='output.avi', default=1, type=str)
-    parser.add_argument('--shuffle', action='store_true')
+    parser.add_argument('--output', '-o', help='Output file name', default='output.mp4', type=str)
+    parser.add_argument('--shuffle', help='shuffle all clips (otherwise, sort each grouping of randoclips by the order of the source videos)', action='store_true')
     parser.add_argument('input_vid_file_names', nargs='+', help='', type=str)
 
     return parser.parse_args()
@@ -58,4 +58,4 @@ if __name__ == '__main__':
         np.random.shuffle(all_clips)
 
     final_clip = moved.concatenate_videoclips(all_clips)
-    final_clip.write_videofile("myHolidays_edited_2.avi",fps=24, codec='mpeg4')
+    final_clip.write_videofile(args.output, fps=24, codec='mpeg4')
